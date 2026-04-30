@@ -34,7 +34,9 @@ http://localhost:4173/
 
 ## Quick Start
 
-On macOS, you can double-click `啟動 LLM 大亂鬥.command`.
+On macOS, you can double-click `Start LLM Daluandou.command`.
+
+There is also a Chinese-named launcher, `啟動 LLM 大亂鬥.command`, but the ASCII filename is usually friendlier for Finder, syncing tools, and downloaded repositories.
 
 It starts the local server and opens:
 

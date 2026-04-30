@@ -11,21 +11,21 @@ open_app() {
 }
 
 if lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1; then
-  echo "LLM 大亂鬥 is already running."
+  echo "LLM Daluandou is already running."
   open_app
   exit 0
 fi
 
-echo "Starting LLM 大亂鬥..."
+echo "Starting LLM Daluandou..."
 npm start &
 SERVER_PID=$!
 
 for _ in {1..30}; do
   if curl -fsS "$APP_URL" >/dev/null 2>&1; then
-    echo "LLM 大亂鬥 is ready: $APP_URL"
+    echo "LLM Daluandou is ready: $APP_URL"
     open_app
     echo
-    echo "Keep this Terminal window open while using LLM 大亂鬥."
+    echo "Keep this Terminal window open while using LLM Daluandou."
     echo "Press Ctrl-C here to stop the server."
     wait "$SERVER_PID"
     exit $?
@@ -33,6 +33,6 @@ for _ in {1..30}; do
   sleep 1
 done
 
-echo "LLM 大亂鬥 did not become ready in time."
+echo "LLM Daluandou did not become ready in time."
 echo "Check the messages above for details."
 wait "$SERVER_PID"
