@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LLM 大亂鬥</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>LLM 大亂鬥</h1>
+          <p>同一個問題，同時比較三種模型的回答。</p>
+        </div>
+        <nav class="tabs" aria-label="頁面">
+          <button class="tab is-active" data-view="arena">比較</button>
+          <button class="tab" data-view="settings">後台</button>
+        </nav>
+      </header>
+
+      <main>
+        <section id="arena" class="view is-active">
+          <div class="composer">
+            <div class="prompt-wrap">
+              <label for="prompt">問題</label>
+              <textarea id="prompt" rows="5" placeholder="輸入一個你想拿來比較模型回答的問題..."></textarea>
+            </div>
+            <div class="controls">
+              <div>
+                <label for="model-select">比較模型</label>
+                <select id="model-select" multiple size="3"></select>
+              </div>
+              <button id="run" class="primary">開始比較</button>
+            </div>
+          </div>
+          <div id="notice" class="notice" hidden></div>
+          <div id="results" class="results" aria-live="polite"></div>
+        </section>
+
+        <section id="settings" class="view">
+          <div class="settings-head">
+            <div>
+              <h2>後台設定</h2>
+              <p>API Key 只存在本機 <code>data/config.json</code>。請不要把這個服務直接公開到網路。</p>
+            </div>
+            <div class="settings-actions">
+              <button id="add-api-key">新增 API Key</button>
+              <button id="add-provider">新增模型</button>
+            </div>
+          </div>
+          <section class="settings-block">
+            <div class="block-head">
+              <h3>API Key 庫</h3>
+              <p>先把常用 key 存在這裡，下面每個模型再選要用哪一把。</p>
+            </div>
+            <div id="api-keys" class="api-keys"></div>
+          </section>
+          <div class="generation">
+            <label>
+              Temperature
+              <input id="temperature" type="number" min="0" max="2" step="0.1" />
+            </label>
+            <label>
+              Max tokens
+              <input id="max-tokens" type="number" min="128" max="16000" step="128" />
+            </label>
+          </div>
+          <div id="providers" class="providers"></div>
+          <div class="savebar">
+            <button id="save" class="primary">儲存設定</button>
+            <span id="save-status"></span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="api-key-template">
+      <article class="api-key-card">
+        <div class="provider-row">
+          <strong>API Key</strong>
+          <button data-action="remove-key" class="ghost" title="移除">刪除</button>
+        </div>
+        <label>名稱 <input data-key-field="name" type="text" placeholder="OpenRouter" /></label>
+        <label>Key <input data-key-field="value" type="password" placeholder="保留 ******** 代表沿用已儲存的 key" /></label>
+      </article>
+    </template>
+
+    <template id="provider-template">
+      <article class="provider">
+        <div class="provider-row">
+          <label class="switch">
+            <input data-field="enabled" type="checkbox" />
+            <span>啟用</span>
+          </label>
+          <button data-action="remove" class="ghost" title="移除">刪除</button>
+        </div>
+        <label>連線類型
+          <select data-field="connectionType">
+            <option value="openrouter">OpenRouter</option>
+            <option value="custom">自訂 OpenAI-compatible</option>
+          </select>
+        </label>
+        <label>顯示名稱 <input data-field="name" type="text" /></label>
+        <label>Base URL <input data-field="baseUrl" type="url" placeholder="https://openrouter.ai/api/v1" /></label>
+        <label class="model-input">Model <input data-field="model" type="text" placeholder="openai/gpt-4.1" /></label>
+        <label class="model-picker">OpenRouter 模型
+          <input data-model-filter type="search" placeholder="搜尋 claude、gpt、gemini、deepseek..." />
+          <select data-model-select>
+            <option value="">載入模型清單中...</option>
+          </select>
+          <span class="model-meta"></span>
+        </label>
+        <label>使用 API Key
+          <select data-field="apiKeyRef"></select>
+        </label>
+        <label>單獨覆寫 API Key <input data-field="apiKey" type="password" placeholder="通常留空；填了會優先使用這把 key" /></label>
+      </article>
+    </template>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
