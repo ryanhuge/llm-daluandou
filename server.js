@@ -1,13 +1,16 @@
 import { createServer } from "node:http";
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { copyFile, readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, "public");
 const dataDir = path.join(__dirname, "data");
-const configPath = path.join(dataDir, "config.json");
+const legacyConfigPath = path.join(dataDir, "config.json");
+const userConfigDir = process.env.LLM_DALUANDOU_HOME || path.join(os.homedir(), ".llm-daluandou");
+const configPath = process.env.LLM_DALUANDOU_CONFIG || path.join(userConfigDir, "config.json");
 const port = Number(process.env.PORT || 4173);
 let openRouterModelCache = {
   fetchedAt: 0,
@@ -64,9 +67,13 @@ const mimeTypes = {
 };
 
 async function ensureConfig() {
-  await mkdir(dataDir, { recursive: true });
+  await mkdir(path.dirname(configPath), { recursive: true });
   if (!existsSync(configPath)) {
-    await writeFile(configPath, JSON.stringify(defaultConfig, null, 2));
+    if (existsSync(legacyConfigPath)) {
+      await copyFile(legacyConfigPath, configPath);
+    } else {
+      await writeFile(configPath, JSON.stringify(defaultConfig, null, 2));
+    }
   }
 }
 
@@ -76,7 +83,7 @@ async function readConfig() {
 }
 
 async function writeConfig(config) {
-  await mkdir(dataDir, { recursive: true });
+  await mkdir(path.dirname(configPath), { recursive: true });
   await writeFile(configPath, JSON.stringify(config, null, 2));
 }
 

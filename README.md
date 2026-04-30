@@ -18,6 +18,18 @@ npm start
 
 ## Configuration
 
-Local API keys are stored in `data/config.json`. This file is ignored by git.
+Local API keys are stored in your user folder:
 
-For a fresh setup, copy `data/config.example.json` to `data/config.json`, then add your API keys from the app's settings page.
+```sh
+~/.llm-daluandou/config.json
+```
+
+That keeps secrets outside the project folder, so the repo can stay open source safely.
+
+You can override the config path with:
+
+```sh
+LLM_DALUANDOU_CONFIG=/path/to/config.json npm start
+```
+
+For a fresh setup, use `data/config.example.json` as a reference, then add your API keys from the app's settings page.
