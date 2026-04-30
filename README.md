@@ -2,6 +2,8 @@
 
 LLM 大亂鬥 is a local web app for comparing multiple LLM responses side by side.
 
+It is designed for writers, editors, researchers, marketers, and other text workers who want a fast, practical way to understand what the latest models can do. Write one prompt, send it to several models at once, and compare their strengths in drafting, rewriting, summarizing, reasoning, tone, structure, and creative direction in a single view.
+
 ## Requirements
 
 - Node.js 20 or later
