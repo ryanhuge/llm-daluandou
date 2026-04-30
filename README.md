@@ -1,8 +1,38 @@
 # LLM 大亂鬥
 
+LLM 大亂鬥 is a local web app for comparing multiple LLM responses side by side.
+
+## Requirements
+
+- Node.js 20 or later
+- npm
+- An API key from OpenRouter or another OpenAI-compatible provider
+
+Check your Node.js version:
+
+```sh
+node --version
+```
+
+If Node.js is not installed, download it from:
+
+https://nodejs.org/
+
+## Install
+
+```sh
+git clone https://github.com/ryanhuge/llm-daluandou.git
+cd llm-daluandou
+npm start
+```
+
+Then open:
+
+http://localhost:4173/
+
 ## Quick Start
 
-Double-click `啟動 LLM 大亂鬥.command`.
+On macOS, you can double-click `啟動 LLM 大亂鬥.command`.
 
 It starts the local server and opens:
 
@@ -11,6 +41,8 @@ http://localhost:4173/
 Keep the Terminal window open while using the app. Press `Ctrl-C` in that Terminal window to stop the server.
 
 ## Manual Start
+
+On macOS, Windows, or Linux:
 
 ```sh
 npm start
